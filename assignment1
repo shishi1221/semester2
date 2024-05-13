@@ -1,0 +1,30 @@
+# Step 1: Load necessary libraries and a dataset
+library(ggplot2)
+library(dplyr)
+
+# Load your dataset or generate a sample one
+# For demonstration, let's use a built-in dataset 'iris' which contains information about flowers
+data(iris)
+
+# Step 2: Change the value of the categorical variable
+# For demonstration, let's change the 'Species' column to more understandable values
+iris$Species <- recode_factor(iris$Species, 
+                              "setosa" = "Type A",
+                              "versicolor" = "Type B",
+                              "virginica" = "Type C")
+
+# Step 3: Plot means of both groups using boxplots
+ggplot(iris, aes(x = Species, y = Sepal.Length)) +
+  geom_boxplot() +
+  labs(title = "Sepal Length by Species",
+       x = "Species",
+       y = "Sepal Length")
+
+# Step 4: Summary Statistics (Max & Min)
+summary_statistics <- summarise(iris, Max = max(Sepal.Length), Min = min(Sepal.Length))
+print(summary_statistics)
+
+# Step 5: Confidence Interval for estimate of means of both variables
+# Let's calculate confidence intervals for each species
+conf_intervals <- tapply(iris$Sepal.Length, iris$Species, function(x) t.test(x)$conf.int)
+print(conf_intervals)
