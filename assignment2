@@ -1,0 +1,26 @@
+# Step 1: Load a built-in dataset and run regression
+# For this example, let's use the built-in dataset 'mtcars' and run a linear regression
+data(mtcars)
+model <- lm(mpg ~ wt, data = mtcars)
+summary(model)
+
+# Step 2: Plot a scatterplot of Y & X
+plot(mtcars$wt, mtcars$mpg, main = "Scatterplot of mpg vs wt", xlab = "Weight", ylab = "Miles per Gallon")
+
+# Step 3: Extract residuals & coefficients
+residuals <- resid(model)
+coefficients <- coef(model)
+print("Residuals:")
+print(head(residuals))
+print("Coefficients:")
+print(coefficients)
+
+# Step 4: Change the specification to add a polynomial
+# Let's add a quadratic term (X^2) to the model
+model_poly <- lm(mpg ~ wt + I(wt^2), data = mtcars)
+summary(model_poly)
+
+# Step 5: Add an interaction effect
+# Let's add an interaction effect between 'wt' and 'hp'
+model_interaction <- lm(mpg ~ wt * hp, data = mtcars)
+summary(model_interaction)
